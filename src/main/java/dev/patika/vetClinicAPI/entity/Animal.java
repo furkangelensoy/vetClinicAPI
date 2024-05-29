@@ -17,6 +17,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Animal {
+    /*
+        This class corresponds to the animals table in the database.
+        It contains the necessary columns in the animals table and contains the relationships of other tables.
+     */
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,15 +47,33 @@ public class Animal {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
+
+    /*
+    This field contains the relationship between the animal table and the customer table.
+    An animal may have one owner, but a customer may have more than one animal.
+    */
     @ManyToOne
-    @JoinColumn(name = "customer_id" , referencedColumnName = "id")
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "animal")
+
+    /*
+    This field contains the relationship between the animal table and the appointments table.
+    There may be more than one appointment for an animal.
+    Cascade type remove is defined so that when an animal is deleted from the database,
+    the appointments of the animal are deleted.
+    */
+    @OneToMany(mappedBy = "animal", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Appointment> appointmentList;
 
-    @OneToMany(mappedBy = "animal")
+    /*
+    This field contains the relationship between the animal table and the vaccines table.
+    An animal may have more than one vaccination.
+    Cascade type remove is defined so that when an animal is deleted from the database,
+    the vaccines of the animal are deleted.
+    */
+    @OneToMany(mappedBy = "animal", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Vaccine> vaccineList;
 }

@@ -29,11 +29,14 @@ public class VaccineService implements dev.patika.vetClinicAPI.service.VaccineSe
 
     @Override
     public ResultData<VaccineResponse> save(VaccineSaveRequest vaccineSaveRequest) {
+        //This method saves a vaccine to the database according to the vaccineSaveRequest.
+
+        //Checks animalId. If there is no animal with this id, it throws exception.
         Long animalId = vaccineSaveRequest.getAnimalId();
         Animal animal = this.animalRepository.findById(animalId)
                 .orElseThrow(() -> new NotFoundException(String.valueOf(animalId)));
 
-
+        //Gets vaccine's count according to animalId, vaccineName, vaccineCode, startDate and endDate.
         int vaccineCount = this.vaccineRepository.findHasVaccine(
                 vaccineSaveRequest.getAnimalId(),
                 vaccineSaveRequest.getName(),
@@ -42,6 +45,8 @@ public class VaccineService implements dev.patika.vetClinicAPI.service.VaccineSe
                 vaccineSaveRequest.getProtectionFinishDate()
         );
 
+        //If the count is different from 0, the animal has this vaccine and the protection period has not expired yet
+        //and it throws exception.
         if (vaccineCount > 0) {
             throw new VaccineExpiredException();
         }
@@ -53,24 +58,28 @@ public class VaccineService implements dev.patika.vetClinicAPI.service.VaccineSe
         Vaccine savedVaccine = this.vaccineRepository.save(vaccine);
 
         VaccineResponse vaccineResponse = this.vaccineMapper.asOutPut(savedVaccine);
-        vaccineResponse.setAnimalId(animalId);
+        vaccineResponse.setAnimal(animal);
 
         return ResultHelper.CREATED(vaccineResponse);
     }
 
     @Override
     public ResultData<VaccineResponse> getById(Long id) {
+        //This method gets a vaccine from the database according to the id.
+
         Vaccine vaccine = this.vaccineRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.valueOf(id)));
 
         VaccineResponse vaccineResponse = this.vaccineMapper.asOutPut(vaccine);
-        vaccineResponse.setAnimalId(vaccine.getAnimal().getId());
+        vaccineResponse.setAnimal(vaccine.getAnimal());
 
         return ResultHelper.OK(vaccineResponse);
     }
 
     @Override
     public Result delete(Long id) {
+        //This method deletes a vaccine from the database according to the id.
+
         Vaccine vaccine = this.vaccineRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.valueOf(id)));
 
@@ -81,6 +90,8 @@ public class VaccineService implements dev.patika.vetClinicAPI.service.VaccineSe
 
     @Override
     public ResultData<VaccineResponse> update(Long id, VaccineUpdateRequest vaccineUpdateRequest) {
+        //This method updates a customer from the database according to the id and vaccineUpdateRequest.
+
         Vaccine vaccine = this.vaccineRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.valueOf(id)));
 
@@ -107,25 +118,38 @@ public class VaccineService implements dev.patika.vetClinicAPI.service.VaccineSe
 
 
         VaccineResponse vaccineResponse = this.vaccineMapper.asOutPut(savedVaccine);
-        vaccineResponse.setAnimalId(animalId);
+        vaccineResponse.setAnimal(animal);
 
         return ResultHelper.OK(vaccineResponse);
     }
 
     @Override
     public ResultData<List<VaccineResponse>> findByFilter(Long animalId) {
+        //This method lists all vaccines from the database.
+        //If parameter is entered it lists according to animalId.
+
         List<Vaccine> vaccineList = this.vaccineRepository.findByFilter(animalId);
 
         List<VaccineResponse> vaccineResponseList = this.vaccineMapper.asOutPutList(vaccineList);
+
+        for (int i = 0; i < vaccineList.size(); i++) {
+            vaccineResponseList.get(i).setAnimal(vaccineList.get(i).getAnimal());
+        }
 
         return ResultHelper.OK(vaccineResponseList);
     }
 
     @Override
     public ResultData<List<VaccineResponse>> filterByFinishDate(LocalDate startDate, LocalDate endDate) {
-        List<Vaccine> vaccineList = this.vaccineRepository.filterByFinishDate(startDate,endDate);
+        //This method lists vaccines from the database according to startDate and endDate.
+
+        List<Vaccine> vaccineList = this.vaccineRepository.filterByFinishDate(startDate, endDate);
 
         List<VaccineResponse> vaccineResponseList = this.vaccineMapper.asOutPutList(vaccineList);
+
+        for (int i = 0; i < vaccineList.size(); i++) {
+            vaccineResponseList.get(i).setAnimal(vaccineList.get(i).getAnimal());
+        }
 
         return ResultHelper.OK(vaccineResponseList);
     }

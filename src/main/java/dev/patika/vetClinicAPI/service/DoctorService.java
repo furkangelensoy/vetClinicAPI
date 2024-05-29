@@ -9,6 +9,8 @@ import dev.patika.vetClinicAPI.dto.response.doctor.DoctorResponse;
 import java.util.List;
 
 public interface DoctorService {
+    //Methods that must be present in the DoctorService class are defined in this interface.
+
     ResultData<DoctorResponse> save(DoctorSaveRequest doctorSaveRequest);
 
     ResultData<DoctorResponse> getById(Long id);

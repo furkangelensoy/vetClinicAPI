@@ -23,18 +23,24 @@ public class AppointmentController {
 
     @GetMapping("/{id}")
     public ResultData<AppointmentResponse> getById(@PathVariable Long id) {
+        //This method gets an appointment from the database according to the id.
+
         return this.appointmentService.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<AppointmentResponse> save(@Valid @RequestBody AppointmentSaveRequest appointmentSaveRequest) {
+        //This method saves an appointment to the database according to the appointmentSaveRequest.
+
         return this.appointmentService.save(appointmentSaveRequest);
     }
 
     @PutMapping("/{id}")
     public ResultData<AppointmentResponse> update(
-            @PathVariable Long id, @Valid @RequestBody AppointmentUpdateRequest appointmentUpdateRequest) {
+            @PathVariable Long id,
+            @Valid @RequestBody AppointmentUpdateRequest appointmentUpdateRequest) {
+        //This method saves an appointment to the database according to the id and appointmentSaveRequest.
 
         return this.appointmentService.update(id, appointmentUpdateRequest);
     }
@@ -42,11 +48,15 @@ public class AppointmentController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Result delete(@PathVariable Long id) {
+        //This method deletes an appointment from the database according to the id.
+
         return this.appointmentService.delete(id);
     }
 
     @GetMapping
     public ResultData<List<AppointmentResponse>> findAll() {
+        //This method lists all appointments from the database.
+
         return this.appointmentService.findAll();
     }
 
@@ -54,21 +64,20 @@ public class AppointmentController {
     public ResultData<List<AppointmentResponse>> getByDateRangeAndAnimalId(
             @RequestParam LocalDate startDate,
             @RequestParam LocalDate endDate,
-            @RequestParam Long animalId
-    ) {
+            @RequestParam Long animalId) {
+        //This method lists appointments from the database according to startDate, endDate and animalId.
 
-        return this.appointmentService.findByDateRangeAndAnimalId(
-                startDate, endDate, animalId);
+
+        return this.appointmentService.findByDateRangeAndAnimalId(startDate, endDate, animalId);
     }
 
     @GetMapping("/get-by-doctor")
     public ResultData<List<AppointmentResponse>> findByDateRangeAndDoctorId(
             @RequestParam LocalDate startDate,
             @RequestParam LocalDate endDate,
-            @RequestParam Long doctorId
-    ) {
+            @RequestParam Long doctorId) {
+        //This method lists appointments from the database according to startDate, endDate and doctorId.
 
-        return this.appointmentService.findByDateRangeAndDoctorId(
-                startDate, endDate, doctorId);
+        return this.appointmentService.findByDateRangeAndDoctorId(startDate, endDate, doctorId);
     }
 }

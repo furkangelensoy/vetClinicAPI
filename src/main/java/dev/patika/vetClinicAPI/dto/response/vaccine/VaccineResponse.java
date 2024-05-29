@@ -1,5 +1,6 @@
 package dev.patika.vetClinicAPI.dto.response.vaccine;
 
+import dev.patika.vetClinicAPI.entity.Animal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,5 @@ public class VaccineResponse {
     private String code;
     private LocalDate protectionStartDate;
     private LocalDate protectionFinishDate;
-    private Long animalId;
+    private Animal animal;
 }

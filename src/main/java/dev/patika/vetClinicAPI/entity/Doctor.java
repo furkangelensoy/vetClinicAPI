@@ -18,9 +18,14 @@ import java.util.List;
 @NoArgsConstructor
 public class Doctor {
 
+    /*
+        This class corresponds to the doctors table in the database.
+        It contains the necessary columns in the doctors table and contains the relationships of other tables.
+     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id" , columnDefinition = "serial")
+    @Column(name = "id", columnDefinition = "serial")
     private Long id;
 
     @Column(nullable = false)
@@ -39,11 +44,24 @@ public class Doctor {
     @Column
     private String city;
 
-    @OneToMany(mappedBy = "doctor")
+    /*
+    This field contains the relationship between the doctors table and the appointments table.
+    A doctor may have more than one appointment.
+    Cascade type remove is defined so that when a doctor is deleted from the database,
+    the appointments of the doctor are deleted.
+    */
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Appointment> appointmentList;
 
-    @OneToMany(mappedBy = "doctor")
+
+    /*
+    This field contains the relationship between the doctors table and the available_dates table.
+    A doctor may have more than one available_date.
+    Cascade type remove is defined so that when a doctor is deleted from the database,
+    the available_dates of the doctor are deleted.
+    */
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<AvailableDate> availableDateList;
 }

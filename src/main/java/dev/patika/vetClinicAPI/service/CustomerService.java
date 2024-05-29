@@ -9,6 +9,8 @@ import dev.patika.vetClinicAPI.dto.response.customer.CustomerResponse;
 import java.util.List;
 
 public interface CustomerService {
+    //Methods that must be present in the CustomerService class are defined in this interface.
+
     ResultData<CustomerResponse> save(CustomerSaveRequest customerSaveRequest);
 
     ResultData<CustomerResponse> getById(Long id);

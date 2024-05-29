@@ -9,6 +9,7 @@ import dev.patika.vetClinicAPI.dto.response.animal.AnimalResponse;
 import java.util.List;
 
 public interface AnimalService {
+    //Methods that must be present in the AnimalService class are defined in this interface.
 
     ResultData<AnimalResponse> save(AnimalSaveRequest animalSaveRequest);
 

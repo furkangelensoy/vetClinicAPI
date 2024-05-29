@@ -28,6 +28,9 @@ public class AnimalService implements dev.patika.vetClinicAPI.service.AnimalServ
 
     @Override
     public ResultData<AnimalResponse> save(AnimalSaveRequest animalSaveRequest) {
+        //This method saves an animal to the database according to the animalSaveRequest.
+
+        //Checks customerId. If there is no customer with this id, it throws exception.
         Long customerId = animalSaveRequest.getCustomerId();
         Customer customer = this.customerRepository.findById(
                 customerId).orElseThrow(() -> new NotFoundException(String.valueOf(customerId)));
@@ -47,6 +50,8 @@ public class AnimalService implements dev.patika.vetClinicAPI.service.AnimalServ
 
     @Override
     public ResultData<AnimalResponse> getById(Long id) {
+        //This method gets an animal from the database according to the id.
+
         Animal foundAnimal = this.animalRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.valueOf(id)));
 
@@ -58,6 +63,8 @@ public class AnimalService implements dev.patika.vetClinicAPI.service.AnimalServ
 
     @Override
     public Result delete(Long id) {
+        //This method deletes an animal from the database according to the id.
+
         Animal animal = this.animalRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.valueOf(id)));
 
@@ -68,9 +75,13 @@ public class AnimalService implements dev.patika.vetClinicAPI.service.AnimalServ
 
     @Override
     public ResultData<AnimalResponse> update(Long id, AnimalUpdateRequest animalUpdateRequest) {
+        //This method updates an animal from the database according to the id and AnimalUpdateRequest.
+
+        //Checks id. If there is no animal with this id, it throws exception.
         Animal animal = this.animalRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.valueOf(id)));
 
+        //Checks customerId. If there is no customer with this id, it throws exception.
         Customer customer = this.customerRepository.findById(animalUpdateRequest.getCustomerId())
                 .orElseThrow(() -> new NotFoundException(String.valueOf(id)));
 
@@ -87,8 +98,16 @@ public class AnimalService implements dev.patika.vetClinicAPI.service.AnimalServ
 
     @Override
     public ResultData<List<AnimalResponse>> findAll(Long customerId, String animalName) {
+        //This method lists animals from the database according to the customerId and animalName.
+        //If no parameters are entered, it lists all animals.
+
+
         List<Animal> animalList = this.animalRepository.findByFilter(customerId, animalName);
         List<AnimalResponse> animalResponseList = this.animalMapper.asOutPutList(animalList);
+
+        for (int i = 0; i < animalList.size(); i++) {
+            animalResponseList.get(i).setCustomer(animalList.get(i).getCustomer());
+        }
 
         return ResultHelper.OK(animalResponseList);
     }

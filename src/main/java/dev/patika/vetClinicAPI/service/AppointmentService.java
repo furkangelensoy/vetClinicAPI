@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface AppointmentService {
+    //Methods that must be present in the AppointmentService class are defined in this interface.
+
     ResultData<AppointmentResponse> save(AppointmentSaveRequest appointmentSaveRequest);
 
     ResultData<AppointmentResponse> getById(Long id);

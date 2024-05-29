@@ -9,6 +9,8 @@ import dev.patika.vetClinicAPI.dto.response.availableDate.AvailableResponse;
 import java.util.List;
 
 public interface AvailableDateService {
+    //Methods that must be present in the AvailableDateService class are defined in this interface.
+
     ResultData<AvailableResponse> save(AvailableSaveRequest availableSaveRequest);
 
     ResultData<AvailableResponse> getById(Long id);

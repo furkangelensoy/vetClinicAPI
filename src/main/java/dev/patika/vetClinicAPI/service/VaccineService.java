@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface VaccineService {
+    //Methods that must be present in the VaccineService class are defined in this interface.
+
     ResultData<VaccineResponse> save(VaccineSaveRequest vaccineSaveRequest);
 
     ResultData<VaccineResponse> getById(Long id);

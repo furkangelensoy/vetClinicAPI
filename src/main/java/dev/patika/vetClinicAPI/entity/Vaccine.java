@@ -16,9 +16,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Vaccine {
 
+    /*
+        This class corresponds to the vaccines table in the database.
+        It contains the necessary columns in the vaccines table and contains the relationships of other tables.
+     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id" , columnDefinition = "serial")
+    @Column(name = "id", columnDefinition = "serial")
     private Long id;
 
     @Column(nullable = false)
@@ -35,6 +40,10 @@ public class Vaccine {
     @Column(name = "protection_finish_date")
     private LocalDate protectionFinishDate;
 
+    /*
+    This field contains the relationship between the vaccines table and the animals table.
+    More than one vaccine can belong to one animal
+    */
     @ManyToOne()
     @JoinColumn(name = "animal_id", referencedColumnName = "id")
     private Animal animal;

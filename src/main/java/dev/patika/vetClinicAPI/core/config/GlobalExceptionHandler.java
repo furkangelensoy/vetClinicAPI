@@ -1,5 +1,7 @@
 package dev.patika.vetClinicAPI.core.config;
 
+import dev.patika.vetClinicAPI.core.exception.AlreadyRegistered;
+import dev.patika.vetClinicAPI.core.exception.AppointmentException;
 import dev.patika.vetClinicAPI.core.exception.NotFoundException;
 import dev.patika.vetClinicAPI.core.exception.VaccineExpiredException;
 import dev.patika.vetClinicAPI.core.result.Result;
@@ -32,6 +34,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(VaccineExpiredException.class)
     public ResponseEntity<String> handleVaccineExpiredException(VaccineExpiredException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AppointmentException.class)
+    public ResponseEntity<String> handleAppointmentException(AppointmentException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AlreadyRegistered.class)
+    public ResponseEntity<String> handleAlreadyRegistered(AlreadyRegistered e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

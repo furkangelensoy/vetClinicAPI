@@ -25,6 +25,8 @@ public class CustomerService implements dev.patika.vetClinicAPI.service.Customer
 
     @Override
     public ResultData<CustomerResponse> save(CustomerSaveRequest customerSaveRequest) {
+        //This method saves a customer to the database according to the customerSaveRequest.
+
         Customer savedCustomer = this.customerRepository.save(this.customerMapper.asEntity(customerSaveRequest));
         CustomerResponse customerResponse = this.customerMapper.asOutPut(savedCustomer);
 
@@ -33,6 +35,8 @@ public class CustomerService implements dev.patika.vetClinicAPI.service.Customer
 
     @Override
     public ResultData<CustomerResponse> getById(Long id) {
+        //This method gets a customer from the database according to the id.
+
         Customer foundCustomer = this.customerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(id.toString()));
 
@@ -43,6 +47,8 @@ public class CustomerService implements dev.patika.vetClinicAPI.service.Customer
 
     @Override
     public Result delete(Long id) {
+        //This method deletes a customer from the database according to the id.
+
         Customer customer = this.customerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(id.toString()));
 
@@ -53,10 +59,12 @@ public class CustomerService implements dev.patika.vetClinicAPI.service.Customer
 
     @Override
     public ResultData<CustomerResponse> update(Long id, CustomerUpdateRequest customerUpdateRequest) {
+        //This method updates a customer from the database according to the id and customerUpdateRequest.
+
         Customer customerFromDB = this.customerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(id.toString()));
 
-        this.customerMapper.update(customerFromDB,customerUpdateRequest);
+        this.customerMapper.update(customerFromDB, customerUpdateRequest);
 
         Customer savedCustomer = this.customerRepository.save(customerFromDB);
 
@@ -67,6 +75,9 @@ public class CustomerService implements dev.patika.vetClinicAPI.service.Customer
 
     @Override
     public ResultData<List<CustomerResponse>> findAll(String customerName) {
+        //This method lists all customers from the database.
+        //If parameter is entered it lists according to customerName.
+
         List<Customer> customerList = this.customerRepository.findByFilter(customerName);
         List<CustomerResponse> customerResponseList = this.customerMapper.asOutPutList(customerList);
 

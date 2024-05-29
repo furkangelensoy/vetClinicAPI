@@ -22,18 +22,24 @@ public class AvailableDateController {
 
     @GetMapping("/{id}")
     public ResultData<AvailableResponse> getById(@PathVariable Long id) {
+        //This method gets an available date from the database according to the id.
+
         return this.availableDateService.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<AvailableResponse> save(@Valid @RequestBody AvailableSaveRequest availableSaveRequest) {
+        //This method saves an available date to the database according to the availableSaveRequest.
+
         return this.availableDateService.save(availableSaveRequest);
     }
 
     @PutMapping("/{id}")
     public ResultData<AvailableResponse> update(
-            @PathVariable Long id, @Valid @RequestBody AvailableUpdateRequest availableUpdateRequest) {
+            @PathVariable Long id,
+            @Valid @RequestBody AvailableUpdateRequest availableUpdateRequest) {
+        //This method updates an available date from the database according to the id and availableUpdateRequest.
 
         return this.availableDateService.update(id, availableUpdateRequest);
     }
@@ -41,11 +47,15 @@ public class AvailableDateController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Result delete(@PathVariable Long id) {
+        //This method deletes an available date from the database according to the id.
+
         return this.availableDateService.delete(id);
     }
 
     @GetMapping
     public ResultData<List<AvailableResponse>> findAll() {
+        //This method lists all available dates from the database.
+
         return this.availableDateService.findAll();
     }
 }
