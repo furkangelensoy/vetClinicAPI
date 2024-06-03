@@ -1,5 +1,5 @@
 # Vet Clinic Management API
-This project is an API developed for a veterinary clinic to manage its own affairs. The API is built using the modern Java framework, Spring Boot. The project is designed to be used by veterinary staff.
+This project is an API developed for a veterinary clinic to manage its own affairs. The project is designed to be used by veterinary staff.
 N layer architecture and java spring boot were used in this project. This project consists of controller, core, dto, entity, service and repository packages.
 
 ## Technologies
